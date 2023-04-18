@@ -132,7 +132,7 @@ function validateForm() {
 
 
 function AddAndEditEmployee(){
-  if(editFormFlag = true){
+  if(editFormFlag === true){
     submitEdit();
   }
   else {
@@ -262,72 +262,6 @@ function submitEdit() {
   document.body.removeChild(popup);
 }
 
-
-
-// function editEmployee(employeeId) {
-//   var employee = getEmployeeById(employeeId);
-//   var editForm = document.createElement('form');
-//   editForm.innerHTML = `
-//     <div>
-//       <label for="firstName">First Name:</label>
-//       <input type="text" id="firstName" name="firstName" value="${employee.firstName}">
-//     </div>
-//     <div>
-//       <label for="lastName">Last Name:</label>
-//       <input type="text" id="lastName" name="lastName" value="${employee.lastName}">
-//     </div>
-//     <div>
-//     <div>
-//       <label for="email">email:</label>
-//       <input type="text" id="email" name="email" value="${employee.email}">
-//     </div>
-//     </div>
-//       <label for="phoneNumber">phone Number:</label>
-//       <input type="text" id="phoneNumber" name="phoneNumber" value="${employee.phoneNumber}">
-//     </div>
-//     <div>
-//       <label for="jobTitle">Job Title:</label>
-//       <input type="text" id="jobTitle" name="jobTitle" value="${employee.jobTitle}">
-//     <div>
-//       <label for="department">Department:</label>
-//       <input type="text" id="department" name="department" value="${employee.department}">
-//     </div>
-//     <label for="office">Office:</label>
-//     <input type="text" id="office" name="office" value="${employee.office}">
-//     </div>
-//     <div>
-//       <label for="skypeId">SkypeId:</label>
-//       <input type="text" id="skypeId" name="skypeId" value="${employee.skypeId}">
-//     </div>
-//     <div>
-//     <button type="submit">Save Changes</button>
-//   `;
-//   var employeeCard = document.getElementById(`employeeCard-${employeeId}`);
-//   employeeCard.innerHTML = "";
-//   employeeCard.appendChild(editForm);
-// }
-
-// function getEmployeeById(employeeId) {
-//   // Assuming employeeList is an array of objects with an "id" property
-//   return employeeList.find(employee => employee.id === employeeId);
-// }
-
-
-// function SaveEmployee() {
-//   var employeeDetailForm = document.getElementById('employeeDetail');
-//   var employee = document.getElementById('saveChanges').getAttribute('data-employee-id');
-//   var employee = {
-//     firstName: employeeDetailForm.elements.firstName.value,
-//     lastName: employeeDetailForm.elements.lastName.value,
-//     email: employeeDetailForm.elements.email.value,
-//     jobTitle: employeeDetailForm.elements.jobTitle.value,
-//     office: employeeDetailForm.elements.office.value,
-//     department: employeeDetailForm.elements.department.value,
-//     phoneNumber: employeeDetailForm.elements.phoneNumber.value,
-//     skypeId: employeeDetailForm.elements.skypeId.value
-//   };
-//   console.log(employee);
-// }
 
 var textval = document.getElementById("searchInput");
 textval.addEventListener("keyup", function (e) {
