@@ -173,6 +173,7 @@ function displayEmployees(employeeList) {
 
     employeeCard.addEventListener('click', (e) => {
       showEmployeeForm(employee);
+      editFormFlag = true;
       employeeClickedClassName = e.target.parentElement.id;
     });
 
@@ -211,6 +212,7 @@ function showEmployeeForm(employeeDetail) {
   document.getElementById("email").value = employeeDetail.email;
   document.getElementById("phoneNumber").value = employeeDetail.phoneNumber;
   document.getElementById("skypeId").value = employeeDetail.skypeId;
+  document.getElementById("department").value = employeeDetail.department;
   
   document.getElementById("add-btn").click();
 }
@@ -290,7 +292,7 @@ function clearFilter() {
     //   paginationDiv.appendChild(button);
     // }
     
-  // filter by search
+    // filter by search
   function searchWithFilter() {
     let filteredEmployees = [];
   
@@ -433,5 +435,9 @@ function clearFilter() {
     //employeeList = filteredEmployees;
     displayEmployees(filteredEmployees);
   }
+
+  document.getElementById("add-btn").addEventListener('click', function(){
+    editFormFlag = false;
+  })
 
 
