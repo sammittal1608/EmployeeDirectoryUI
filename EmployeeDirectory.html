@@ -33,9 +33,9 @@
     </div>
     <div class="user-info-div pe-3 col-lg-7 col-md-6 d-none d-md-block">
       <div class="d-flex align-items-end justify-content-end">
-        <h2 class="m-0 fnt"><span>Welcome,</span> Andrew Philip</h2>
+        <h2 class="m-0 fnt"><span>Welcome,</span> Andrew Philips</h2>
         <div>
-          <img src="/EmployeeImg.png" alt="" class="employee-img" />
+          <img src="/EmployeeImg.jpg" alt="" class="employee-img" />
         </div>
       </div>
     </div>
@@ -63,6 +63,7 @@
     <div class="col-md-10 col-sm-12 p-2">
 
       <div class="pagination-div" id="filterInput">
+        <button><i class="fa-solid fa-user" onclick="clearFilter()"></i></button>
       </div>
       <div id="employeeCardContainer">
 
@@ -77,7 +78,7 @@
           </div>
         </div>
         <div class="filter-btn-div">
-          <label>Filter by</label>
+          <label class="filterBy">Filter by</label>
           <select name="filter-by" id="filterSelect">
             <option value="firstName">First Name</option>
             <option value="lastName">Last Name</option>
@@ -91,7 +92,7 @@
           </select>
         </div>
 
-        <button class="add-btn" id ="add-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <button class="add-btn" id ="add-btn" data-bs-toggle="modal"  data-bs-target="#exampleModal">
           Add Employee
         </button>
       </div>
@@ -110,10 +111,10 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">Add Employee</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" id = "closeBtn" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="employeeDetail" onsubmit="return validateForm();">
+          <form id="employeeDetail">
             <div class="mb-3">
               <label for="firstName" class="form-label">First Name:</label>
               <input class="form-control" type="text" name="firstName" id="firstName" placeholder="Enter First Name" />
@@ -167,7 +168,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" onclick="cancelEdit()" data-bs-dismiss="modal">Close</button>
-          <button type="button" onclick="AddAndEditEmployee()" id="saveChanges" class="btn btn-primary"
+          <button type="submit" onclick="AddAndEditEmployee()" id="saveChanges" class="btn btn-primary"
             data-bs-dismiss="modal">Save Changes</button>
         </div>
       </div>

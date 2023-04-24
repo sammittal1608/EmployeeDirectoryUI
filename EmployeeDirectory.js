@@ -49,22 +49,36 @@ class Employee {
   }
 }
 
+
 function addEmployee() {
+  
   editFormFlag = false;
-  var employeeDetail = document.getElementById("employeeDetail");
-  var newEmployee = CreateEmployee(employeeDetail);
-  employeeDetail.reset();
-  var ListOfemployeesId = GetEmployeesId();
-  employeeList.push(newEmployee);
+  if(validateForm()){
+    var employeeDetail = document.getElementById("employeeDetail");
+    var newEmployee = CreateEmployee(employeeDetail);
+    employeeDetail.reset();
+    employeeList.push(newEmployee);
+  
+    localStorage.setItem('employee', JSON.stringify(employeeList));
+  }
 
-  var count = ListOfemployeesId.length;
-  ListOfemployeesId.push(count + 1);
-
-  localStorage.setItem('employee', JSON.stringify(employeeList));
   displayEmployees(employeeList);
   UpdateSidebarFilter();
 
 }
+
+
+function validateEmail(email) {
+  var emailRegex = /^\S+@\S+\.\S+$/;
+  return emailRegex.test(email);
+}
+
+
+function validatePhoneNumber(phoneNumber) {
+  var phoneRegex = /^\d{10}$/;
+  return phoneRegex.test(phoneNumber);
+}
+
 
 function validateForm() {
 
@@ -75,67 +89,67 @@ function validateForm() {
   var office = document.getElementById("office").value;
   var department = document.getElementById("department").value;
   var phoneNumber = document.getElementById("phoneNumber").value;
-  var skypeId = document.getElementById("skypeId").value;
+
+  document.getElementById("firstNameError").style.display = "none";
+  document.getElementById("lastNameError").style.display = "none";
+  document.getElementById("emailError").style.display = "none";
+  document.getElementById("jobTitleError").style.display = "none";
+  document.getElementById("officeError").style.display = "none";
+  document.getElementById("departmentError").style.display = "none";
+  document.getElementById("phoneNumberError").style.display = "none";
+
 
   if (firstName === "") {
-    alert("Please enter First Name");
+    document.getElementById("firstNameError").style.display = "block";
     return false;
   }
 
+  
   if (lastName === "") {
-    alert("Please enter Last Name");
+    document.getElementById("lastNameError").style.display = "block";
     return false;
   }
 
-  if (email === "") {
-    alert("Please enter Email");
+
+  if (!validateEmail(email)) {
+    document.getElementById("emailError").style.display = "block";
     return false;
-  } else {
-    
-    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email.match(emailRegex)) {
-      alert("Please enter a valid Email");
-      return false;
-    }
   }
 
- 
   if (jobTitle === "") {
-    alert("Please select Job Title");
+    document.getElementById("jobTitleError").style.display = "block";
     return false;
   }
 
   if (office === "") {
-    alert("Please select Office");
+    document.getElementById("officeError").style.display = "block";
     return false;
   }
+
 
   if (department === "") {
-    alert("Please select Department");
-    return false;
-  }
-
-  if (phoneNumber === "") {
-    alert("Please enter Phone Number");
+    document.getElementById("departmentError").style.display = "block";
     return false;
   }
 
 
-  if (skypeId === "") {
-    alert("Please enter Skype ID");
+  if (!validatePhoneNumber(phoneNumber)) {
+    document.getElementById("phoneNumberError").style.display = "block";
     return false;
   }
 
-  alert("Form is valid!");
+  
   return true;
 }
 
 
 function AddAndEditEmployee(){
   if(editFormFlag === true){
+    addFormFlag = true;
     submitEdit();
   }
   else {
+    
     addEmployee();
   }
 }
@@ -154,7 +168,7 @@ function displayEmployees(employeeList) {
     employeeCard.innerHTML = `
     <div class="employee-details-card d-flex p-2">
     <div class="col-3 d-flex">
-      <img src="/EmployeeImg.png" alt="" />
+      <img src="/EmployeeImg.jpg" alt="" />
     </div>
     <div class="employee-info col-9" id = "employeeCard - ${index}">
       <p class="name" id="employeeCardName-${index}">${employee.firstName} ${employee.lastName}</p>
@@ -213,6 +227,8 @@ function showEmployeeForm(employeeDetail) {
   document.getElementById("phoneNumber").value = employeeDetail.phoneNumber;
   document.getElementById("skypeId").value = employeeDetail.skypeId;
   document.getElementById("department").value = employeeDetail.department;
+  document.getElementById("jobTitle").value = employeeDetail.jobTitle;
+  document.getElementById("office").value = employeeDetail.office;
   
   document.getElementById("add-btn").click();
 }
@@ -225,7 +241,7 @@ function getEmployeeById(employeeId) {
 
 function cancelEdit() {
   editFormFlag = false;
-  addFormFlag = false;
+  addFormFlag = true;
 }
 
 function submitEdit() {
@@ -253,15 +269,16 @@ function submitEdit() {
 
   
   localStorage.setItem('employee', JSON.stringify(employeeList));
-  clearFilter();
+  //clearFilter();
+  displayEmployees(employeeList);
 
   // var employeeCard = document.getElementById(`employeeCard-${employeeId}`);
   // employeeCard.querySelector(`#employeeCardName-${employeeId}`).textContent = `${firstName} ${lastName}`;
   // employeeCard.querySelector(`#employeeCardTitle-${employeeId}`).textContent = jobTitle;
   // employeeCard.querySelector(`#employeeCardDepartment-${employeeId}`).textContent = `${department} Department`;
 
-  var popup = document.querySelector('.popup');
-  document.body.removeChild(popup);
+  // var popup = document.querySelector('.popup');
+  // document.body.removeChild(popup);
 }
 
 
@@ -303,7 +320,7 @@ function clearFilter() {
     if (searchTerm !== "") {
       var searchCriteria = filterSelect.value;
       filteredEmployees = employeeList.filter((employee) =>
-        employee[searchCriteria].toLowerCase().includes(searchTerm));
+        employee[searchCriteria].toLowerCase().match(searchTerm));
   
     }
     employeeList = filteredEmployees;
@@ -320,7 +337,6 @@ function clearFilter() {
     employeeList = filteredEmployees;
     displayEmployees(employeeList);
   }
-
 
   // implement pagination with all letters
   var paginationDiv = document.getElementById('filterInput');
@@ -432,12 +448,22 @@ function clearFilter() {
         filteredEmployees = employeeList.filter(employee => employee.jobTitle === filterValue);
         break;
     }
-    //employeeList = filteredEmployees;
+    employeeList = filteredEmployees;
     displayEmployees(filteredEmployees);
   }
 
+  // Reset the form
   document.getElementById("add-btn").addEventListener('click', function(){
-    editFormFlag = false;
+    if(addFormFlag == true)
+    {
+      editFormFlag = false;
+      document.getElementById("employeeDetail").reset();
+    }    
   })
 
+  document.getElementById("closeBtn").addEventListener('click',function(){
+      cancelEdit();
+  })
+
+  
 
